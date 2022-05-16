@@ -1,0 +1,27 @@
+{% extends '_layout.html' %}
+
+{% block title%} Add a new record {% endblock %}
+
+{% block content %}
+<form method="post">
+    <label for="fn">First name</label>
+    <input id="fn" type="text" name="first_name" />
+    <br />
+    <label for="ln">Last name</label>
+    <input id="ln" type="text" name="last_name" />
+    <br />
+
+<label for="house">House:</label>
+<select id=""name="house" required>
+    <option disabled selected>Please select a house</option>
+    <option>Kauri</option>
+    <option>Pohutukawa</option>
+    <option>Totara</option>
+    <option>Rimu</option>
+    <option>Nikau</option>
+    <option>Matai</option>
+</select>
+    <input type="submit" value="Add a new record" />
+</form>
+{% endblock %}
+
