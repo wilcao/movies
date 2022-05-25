@@ -32,7 +32,6 @@ for row in result:
     print("first_name", row ['first_name'], "as last_name", row ['last_name'])
 
 
-
 @app.route('/delete')
 def delete():
        with create_connection() as connection:
@@ -102,6 +101,51 @@ def hello():
             cursor.execute("SELECT * FROM users")
             result = cursor.fetchall()
     return render_template('home.html', data=result)
+
+@app.route('/movieedit')
+def movieedit():
+    if session['role'] != 'admin' and  str(session['ID']) != request.args['id']:
+        flash("you can't see it nor edit it")
+        return redirect('/view?id=' + request.args['id'])
+    if request.method == 'POST':
+       #avatar_image=request.files['avatar']
+       #ext = os.path.splitext(avatar_image.filename)[1]
+       #avatar_filename= str(uuid.uuid4())[:8] + ext
+       a#vatar_image.save("static/images/" + avatar_filename)
+       #if request.form['old_avatar'] != 'None':
+           #os.remove("static/images/" + request.form['old_avatar'])
+      # elif request.form['old_avatar'] != 'None':
+           #avatar_filename = request.form['old_avatar']
+       #else:
+           #avatar_filename = None
+
+       with create_connection() as connection:
+           with connection.cursor() as cursor:
+               sql = """UPDATE movies SET
+               title = %s,
+               genre = %s,
+               year_released = %s,
+               summary = %s,
+               WHERE idmovies = %s
+               """
+               values = (
+                   request.form['title'],
+                   request.form['genre'],
+                   request.form['year_released'],
+                   equest.form['summary'],
+                   request.form['idmovies']
+                 )
+               cursor.execute(sql, values)
+               connection.commit()
+       return redirect('/dashboard')
+    else:
+        with create_connection() as connection:
+           with connection.cursor() as cursor:
+               sql = "SELECT * FROM users WHERE id = %s"
+               values = (request.args['id'])
+               cursor.execute(sql, values)
+               result = cursor.fetchone()
+        return render_template('edit.html', result=result)
 
 @app.route('/register', methods=['GET', 'POST'])
 def add_user():
@@ -196,6 +240,31 @@ def login():
             return redirect("/login")
     else:
          return render_template('login.html')
+
+@app.route('/movieadd', methods=['GET', 'POST'])
+def movieadd():
+    if request.method== 'POST':
+        #if request.files['avatar'].filename:
+            #avatar_image = request.files['avatar']
+            #ext = os.path.splitext(avatar_image.filename)[1]
+            #avatar_filename= str(uuid.uuid4())[:8] + ext
+            #avatar_image.save("static/images/" + avatar_filename)
+        #else:
+            #avatar_filename = None
+        with create_connection() as connection:
+            with connection.cursor() as cursor:
+                sql ="""INSERT INTO movies ( title, genre, year_released, summary) VALUES (%s, %s, %s, %s)"""
+                values = (
+                    request.form['title'],
+                    request.form['genre'],
+                    request.form['year_released'],
+                    request.form['summary'],
+                    )
+                    #return redirect(url_for('add_user'))
+                cursor.execute(sql, values)
+                connection.commit()
+        return redirect('/')
+    return render_template('movie_add.html')
 
 @app.route('/logout')
 def logout():

@@ -9,5 +9,7 @@
 <a href="{{url_for('dashboard')}}">List of users</a>
 {% elif 'logged_in' in session %}
 <a href="{{ url_for('view_user', id=session['ID']) }}">View your account</a>
+<br />
+<a href="{{url_for('movieadd')}}">Add a movie</a>
 {% endif %}
 {% endblock %}

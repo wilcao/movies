@@ -1,0 +1,30 @@
+{% extends '_layout.html' %}
+
+{% block title %}Add a movie{% endblock %}
+
+{% block content %}
+<form method="post" enctype="multipart/form-data">
+    <label for="title">Title</label>
+    <input id="title" name="title" />
+    <br />
+    <label for="genre">Genre</label>
+    <input id="genre" name="genre" />
+    <br />
+    <label for="year_released">Year released</label>
+    <select id="year_released" name="year_released" autocomplete="off" required>
+        <option>year</option>
+        {% for i in range(1990, 2022) %}
+        <option>{{i}}</option>
+        {% endfor %}
+    </select>
+    <br />
+    <label for="summary">summary</label>
+    <input id="summary" name="summary" />
+    <br />
+    <!--<label for="pic">Profile picture:</label>-->
+    <!--<input id="pic" type="file" name="avatar" />-->
+    <input type="submit" value="Insert" />
+</form>
+
+
+{% endblock %}
