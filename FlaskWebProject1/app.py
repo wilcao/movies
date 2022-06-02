@@ -40,7 +40,7 @@ def delete():
                values = (request.args['id'])
                cursor.execute(sql, values)
                connection.commit()
-       return redirect ('/dashboard')
+       return redirect ('/userview')
 
 @app.route('/edit', methods=['GET', 'POST'])
 def edit():
@@ -77,7 +77,7 @@ def edit():
                  )
                cursor.execute(sql, values)
                connection.commit()
-       return redirect('/dashboard')
+       return redirect('/userview')
     else:
         with create_connection() as connection:
            with connection.cursor() as cursor:
@@ -90,7 +90,7 @@ def edit():
 
 @app.before_request
 def restrict():
-    restricted_pages = ['dashboard', 'view_user', 'delete', 'edit']
+    restricted_pages = ['userview', 'view_user', 'delete', 'edit', 'movieview']
     if 'logged_in' not in session and request.endpoint in restricted_pages: 
         return redirect('/login')
 
@@ -137,7 +137,7 @@ def movieedit():
                  )
                cursor.execute(sql, values)
                connection.commit()
-       return redirect('/dashboard')
+       return redirect('/userview')
     else:
         with create_connection() as connection:
            with connection.cursor() as cursor:
@@ -180,15 +180,16 @@ def add_user():
         return redirect('/')
     return render_template('users_add.html')
 
-@app.route('/dashboard')
-def dashboard():
+
+@app.route('/movieview')
+def movieview():
     if session['role'] != 'admin':
         return abort(404)
     with create_connection() as connection:
         with connection.cursor() as cursor: 
-            cursor.execute("SELECT * FROM users")
+            cursor.execute("SELECT * FROM movies")
             result = cursor.fetchall()
-    return render_template('users_list.html', result=result)
+    return render_template('movie_view.html', result=result)
 
 @app.route('/view')
 def view_user():

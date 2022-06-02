@@ -40,8 +40,9 @@
     <Content Include="templates\index.html" />
     <Content Include="templates\layout.html" />
     <Content Include="templates\login.html" />
-    <Content Include="templates\movieedit.html" />
+    <Content Include="templates\movie_edit.html" />
     <Content Include="templates\movie_add.html" />
+    <Content Include="templates\movie_view.html" />
     <Content Include="templates\name_thing.html" />
     <Content Include="templates\greeting.html" />
     <Content Include="templates\notfound.html" />
